@@ -1,26 +1,24 @@
-import torch
+#from utils import progress_bar
+from datasets import *
+from models import Densenet,Net,Resnet
 import torch.nn as nn
 import torch.optim as optim
-import torch.nn.functional as F
-import torch.backends.cudnn as cudnn
-import torchvision
-import torchvision.transforms as transforms
-import os
-import argparse
-from models import *
-#from utils import progress_bar
-from utils import *
-from models import *
-import torch.optim as optim
-from datasets import *
 
 classes = ('plane', 'car', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
 # torch dataset has map-style datasets, iterable-style dataset
 trainloader,testloader = get_cifar10()
 print(trainloader.dataset)
 
+#Resnet
+#net = Resnet.resnet()
 
+#Densenet
+batch_size=64
+learning_rate = 0.1
+layers = 100
+net = Densenet.DenseNet(layers,10,growh_rate=12,dropRate=0.0)
 
+#path
 path = '/media/jake/mark-4tb3/input/pytorch/cifar10/net.pth'
 
 def iter_image():
@@ -39,7 +37,8 @@ def show():
 
 
 def train():
-    net = resnet()
+    #global net
+    #net = Resnet.resnet()
     net.cuda()
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.SGD(net.parameters(), lr = 0.001,momentum = 0.9)
@@ -66,7 +65,7 @@ def train():
     torch.save(net.state_dict(),path)
 
 def test():
-    net = resnet()
+    #net = resnet()
     net.cuda()
     net.load_state_dict(torch.load(path))
 

@@ -1,26 +1,12 @@
-import os
-import sys
-import time
-import math
-
 import torch
-import torch.nn as nn
-import torch.optim as optim
-import torch.nn.functional as F
-import torch.backends.cudnn as cudnn
 
 import torchvision
 import torchvision.transforms as transforms
 import matplotlib.pyplot as plt
 import numpy as np
-import os
-import argparse
 
-from models import *
+
 #from utils import progress_bar
-
-import torch.nn as nn
-import torch.nn.init as init
 
 def get_cifar10():
     print('==> Preparing data..')
