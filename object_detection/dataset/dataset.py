@@ -1,20 +1,64 @@
 # https://mf1024.github.io/2019/06/22/Create-Pytorch-Datasets-and-Dataloaders/
 # How to create and use custom pytorch Dataset from the Imagenet
 
-from torch.utils.data import DataLoader, Dataset
-from torchvision import transforms
-import os
-from skimage import io
+from torch.utils.data import DataLoader
+
+#from dataset import *
+import torchvision.datasets as dset
+import matplotlib.pyplot as plt
+import cv2
 import numpy as np
-import time
-from PIL import Image
-import torchvision
+from PIL import Image, ImageDraw
+from torch.utils.data import DataLoader, Dataset
+import os
+import numpy as np # linear algebra
+import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
+import matplotlib.pyplot as plt
+
 import torch
+from torch.utils.data import DataLoader, Dataset
+import torchvision
+from torchvision import transforms
+import time
 IMG_SIZE = (128,128)
 
 
 BATCH_SIZE=32
 
+
+class cocoDataset(object):
+    def __init__(self):
+        self.coco={
+
+        'path': '/media/jake/mark-4tb3/input/datasets/coco',
+        'train': '/media/jake/mark-4tb3/input/datasets/coco/train2017',
+        'test': '/media/jake/mark-4tb3/input/datasets/coco/test2017',
+        'path2json': '/media/jake/mark-4tb3/input/datasets/coco/instances_train2017.json',
+        'save_images' : '/media/jake/mark-4tb3/input/datasets/coco/images/'
+        }
+
+    def get_train(self):
+        train = dset.CocoDetection(root=self.coco['train'], annFile=self.coco['path2json'])
+        return train
+
+    def draw_box(self,train,num):
+        img,target = train[num]
+        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 15))
+
+        img_org = img.copy()
+        blue_color = (255, 0, 0)
+        img = np.array(img)
+        for i in range(len(target)):
+            bbox = target[i]['bbox']
+            x, y, w, h = bbox[0], bbox[1], bbox[2], bbox[3]
+            x, y, w, h = int(x), int(y), int(w), int(h)
+            # img_bbox=cv2.rectangle(train_image, (int(x),int(y)), (int(x)+int(w),int(y)+int(h)), (0,255,0), 10)
+            img_bbox = cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
+
+        im = Image.fromarray(img_bbox)
+        im.save("./images/your_file.jpeg")
+        ax1.imshow(img_org)
+        ax2.imshow(img)
 
 
 class ImageNetDataset(Dataset):
@@ -170,7 +214,7 @@ def get_cifar_10(data_path):
 
 
 
-class PennFudanDataset(object):
+class get_PennFudanDataset(object):
     def __init__(self, root, transforms=None):
         root = '/media/jake/mark-4tb3/input/datasets/PennFudanPed/'
         self.root = root

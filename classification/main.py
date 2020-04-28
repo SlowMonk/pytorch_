@@ -1,8 +1,13 @@
 #from utils import progress_bar
-from datasets import *
-from models import Densenet,Net,Resnet
-import torch.nn as nn
+from datasets.cifiar10 import *
 import torch.optim as optim
+from models.DenseNet import *
+
+#from utils import progress_bar
+from datasets.cifiar10 import *
+import torch.optim as optim
+from models.DenseNet import *
+from datasets.cifiar10 import  *
 
 classes = ('plane', 'car', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
 # torch dataset has map-style datasets, iterable-style dataset
@@ -16,10 +21,18 @@ print(trainloader.dataset)
 batch_size=64
 learning_rate = 0.1
 layers = 100
-net = Densenet.DenseNet(layers,10,growh_rate=12,dropRate=0.0)
+#net = Densenet.DenseNet(layers,10,growh_rate=12,dropRate=0.0)
+net  = densenet121()
 
-#path
-path = '/media/jake/mark-4tb3/input/pytorch/cifar10/net.pth'
+
+
+#from utils import progress_bar
+from datasets.cifiar10 import *
+import torch.optim as optim
+from models.DenseNet import *
+from datasets.cifiar10 import  *
+
+
 
 def iter_image():
     # get some random training images
@@ -36,7 +49,7 @@ def show():
         break
 
 
-def train():
+def train(path):
     #global net
     #net = Resnet.resnet()
     net.cuda()
@@ -64,7 +77,7 @@ def train():
 
     torch.save(net.state_dict(),path)
 
-def test():
+def test(path):
     #net = resnet()
     net.cuda()
     net.load_state_dict(torch.load(path))
@@ -93,9 +106,13 @@ def test():
 
     print('Accuracy of the network on the 10000 test images: %d %%' % (
             100 * correct / total))
-for i in range(3):
-    print('start train')
-    train()
-    print('start test')
-    test()
+def main():
+    path = '/media/jake/mark-4tb3/input/pytorch/cifar10/net.pth'
+    for i in range(3):
+        print('start train')
+        train(path)
+        print('start test')
+        test(path)
 
+if __name__ == '__main__':
+    main()

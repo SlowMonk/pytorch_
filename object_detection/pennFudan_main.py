@@ -3,13 +3,9 @@ import sys
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 
 
-from dataset import *
-import torchvision
-from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
-import torchvision
+from dataset.dataset import *
 from torchvision.models.detection import FasterRCNN
 from torchvision.models.detection.rpn import AnchorGenerator
-import torchvision
 from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
 from torchvision.models.detection.mask_rcnn import MaskRCNNPredictor
 
@@ -57,7 +53,7 @@ def get_transform(train):
 def main():
 
     print('prepare Dataset')
-    dataset = PennFudanDataset(config['PennFudanPed'])
+    dataset = get_PennFudanDataset(config['PennFudanPed'])
 
     print('load Dataset')
     model = torchvision.models.detection.fasterrcnn_resnet50_fpn(pretrained=True)
@@ -105,8 +101,8 @@ def main():
                        box_roi_pool=roi_pooler)
 
     # use our dataset and defined transformations
-    dataset = PennFudanDataset('PennFudanPed', get_transform(train=True))
-    dataset_test = PennFudanDataset('PennFudanPed', get_transform(train=False))
+    dataset = get_PennFudanDataset('PennFudanPed', get_transform(train=True))
+    dataset_test = get_PennFudanDataset('PennFudanPed', get_transform(train=False))
 
     # split the dataset in train and test set
     torch.manual_seed(1)
