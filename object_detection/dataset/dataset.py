@@ -20,7 +20,7 @@ from torch.utils.data import DataLoader, Dataset
 import torchvision
 from torchvision import transforms
 import time
-IMG_SIZE = (128,128)
+
 import os
 import torch
 import torch.utils.data
@@ -28,20 +28,10 @@ import torchvision
 from PIL import Image
 from pycocotools.coco import COCO
 
+IMG_SIZE = (128,128)
 BATCH_SIZE=32
 
-def draw_box(img,target):
-    #img,target = train[num]
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 15))
-    blue_color = (255, 0, 0)
-    img = np.array(img)
-    for i in range(len(target)):
-        bbox = target[i]
-        x, y, w, h = bbox[0], bbox[1], bbox[2], bbox[3]
-        x, y, w, h = int(x), int(y), int(w), int(h)
-        img_bbox = cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
-    im = Image.fromarray(img_bbox)
-    im.save("./images/your_file.jpeg")
+
 
 class CocoDataset(torch.utils.data.Dataset):
     def __init__(self, root, annotation, transforms=None):
@@ -102,7 +92,11 @@ class CocoDataset(torch.utils.data.Dataset):
         if self.transforms is not None:
             img = self.transforms(img)
 
+        #sample = {'img': img, 'my_annotation': my_annotation}
         return img, my_annotation
+        #return sample
+
+
 
     def __len__(self):
         return len(self.ids)
