@@ -1,6 +1,7 @@
 from dataset.dataset import *
 from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
-
+from models.ssd import *
+# https://github.com/qfgaohao/pytorch-ssd
 #import torchvision.transforms as transforms
 DATASET_PATH = {
     'path': '/media/jake/mark-4tb3/input/kaggle_4tb/imagenet-object-localization-challenge/',
@@ -114,13 +115,14 @@ def main():
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
 
+    ssd_net = build_ssd('train',cfg['min_dim'],cfg['num_classes'])
     # DataLoader is iterable over Dataset
-    for imgs, annotations in data_loader:
-        #toTensor = torchvision.transforms.ToTensor()
-        imgs = list(img.to(device) for img in imgs)
-        annotations = [{k: v.to(device) for k, v in t.items()} for t in annotations]
-        print(imgs[0].shape)
-        print(annotations)
-        break
+    #for imgs, annotations in data_loader:
+    #    #toTensor = torchvision.transforms.ToTensor()
+    #    imgs = list(img.to(device) for img in imgs)
+    #    annotations = [{k: v.to(device) for k, v in t.items()} for t in annotations]
+    #    print(imgs[0].shape)
+    #    print(annotations)
+    #    break
 if __name__=='__main__':
     main()
