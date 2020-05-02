@@ -139,6 +139,7 @@ class cocoDatasetTemp(object):
 
 
 class ImageNetDataset(Dataset):
+    #  데이터셋의 전처리를 해주는 부분
     def __init__(self, data_path, is_train, train_split = 0.9, random_seed = 42, target_transform = None, num_classes = None):
         super(ImageNetDataset, self).__init__()
         self.data_path = data_path
@@ -189,10 +190,10 @@ class ImageNetDataset(Dataset):
             self.img_idxes = self.img_idxes[:last_train_sample]
         else:
             self.img_idxes = self.img_idxes[last_train_sample:]
-
+    # 데이터셋의 길이. 즉, 총 샘플의 수를 적어주는 부분
     def __len__(self):
         return len(self.img_idxes)
-
+    #데이터셋에서 특정 1개의 샘플을 가져오는 함수
     def __getitem__(self, index):
 
         img_idx = self.img_idxes[index]
