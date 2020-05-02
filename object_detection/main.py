@@ -115,8 +115,11 @@ def main():
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
 
-    ssd_net = build_ssd('train',cfg['min_dim'],cfg['num_classes'])
-    # DataLoader is iterable over Dataset
+if __name__=='__main__':
+    main()
+
+
+  # DataLoader is iterable over Dataset
     #for imgs, annotations in data_loader:
     #    #toTensor = torchvision.transforms.ToTensor()
     #    imgs = list(img.to(device) for img in imgs)
@@ -124,5 +127,3 @@ def main():
     #    print(imgs[0].shape)
     #    print(annotations)
     #    break
-if __name__=='__main__':
-    main()
